@@ -2,14 +2,13 @@ package main
 
 import (
 	"time"
-	
+
 	"fmt"
 )
 
-
-func test1(done chan struct{}){
-	for{
-		select{
+func test1(done chan struct{}) {
+	for {
+		select {
 		case <-done:
 			fmt.Println("test1")
 			return
@@ -17,23 +16,23 @@ func test1(done chan struct{}){
 	}
 }
 
-func test2(done chan struct{}){
-	for{
-		select{
-		case <- done:
+func test2(done chan struct{}) {
+	for {
+		select {
+		case <-done:
 			fmt.Println("test2")
 			return
 		}
 	}
 }
-func test(){
+func test() {
 	done := make(chan struct{})
 	defer close(done)
 	go test1(done)
 	go test2(done)
-	
+
 }
-func main(){
+func main() {
 	test()
 	time.Sleep(time.Second)
 }
